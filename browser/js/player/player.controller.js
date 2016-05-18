@@ -7,14 +7,14 @@ juke.controller('PlayerCtrl', function ($scope, $rootScope, PlayerFactory) {
   $scope.playing = false;
 
   // main toggle
-  $scope.toggle = function (song) {
-    if ($scope.playing) $rootScope.$broadcast('pause');
-    else $rootScope.$broadcast('play', song);
-  };
+  // $scope.toggle = function (song) {
+  //   if ($scope.playing) $rootScope.$broadcast('pause');
+  //   else $rootScope.$broadcast('play', song);
+  // };
 
   // incoming events (from Album or toggle)
-  $scope.$on('pause', pause);
-  $scope.$on('play', play);
+  // $scope.$on('pause', pause);
+  // $scope.$on('play', play);
 
  
  

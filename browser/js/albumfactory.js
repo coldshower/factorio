@@ -23,7 +23,11 @@ juke.factory('AlbumFactory', function($http) {
     //         });
             
     // }
-
+    albumObj.indexSongs = function (album) {
+        album.songs.forEach(function(song, index) {
+            song.trackNumber = index;
+        });
+    }
 
     return albumObj;
 
