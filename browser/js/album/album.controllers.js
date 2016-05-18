@@ -17,6 +17,7 @@ juke.controller('AlbumCtrl', function($scope, $http, $rootScope, $log, AlbumFact
     AlbumFactory.fetchById(5)
     .then(function (album) {
       album.imageUrl = '/api/albums/' + album.id + '/image';
+      $scope.albumSongs = $album.songs;
       album.songs.forEach(function (song, i) {
         song.audioUrl = '/api/songs/' + song.id + '/audio';
         song.albumIndex = i;
@@ -29,7 +30,7 @@ juke.controller('AlbumCtrl', function($scope, $http, $rootScope, $log, AlbumFact
     })
     .catch($log.error); // $log service can be turned on and off; also, pre-bound
 
-
+   
     // incoming events (from Player, toggle, or skip)
     // $scope.$on('pause', pause);
     // $scope.$on('play', play);
@@ -46,9 +47,15 @@ juke.controller('AlbumCtrl', function($scope, $http, $rootScope, $log, AlbumFact
     //     $scope.playing = true;
     //     $scope.currentSong = song;
     // };
-    $scope.start = function(song){
-        PlayerFactory.start(song);
-    }
+    // $scope.start = function(song){
+    //     PlayerFactory.start(song);
+    // }
+
+    $scope.toggle = PlayerFactory.toggle.bind(PlayerFactory);
+    $scope.isPlaying = PlayerFactory.isPlaying.bind(PlayerFactory);
+    $scope.getCurrentSong = PlayerFactory.getCurrentSong.bind(PlayerFactory);
+
+
 
     // a "true" modulo that wraps negative to the top of the range
     function mod(num, m) {
@@ -69,6 +76,8 @@ juke.controller('AlbumCtrl', function($scope, $http, $rootScope, $log, AlbumFact
     function prev() { skip(-1); };
 
 });
+
+
 
 juke.controller('AlbumsCtrl', function($scope, $rootScope, $log, AlbumFactory, StatsFactory, PlayerFactory) {
 

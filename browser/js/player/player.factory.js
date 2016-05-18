@@ -1,58 +1,64 @@
 'use strict';
 
-juke.factory('PlayerFactory', function() {
+juke.factory('PlayerFactory', function(AlbumFactory) {
+
+
 
     var playObj = {};
 
-    var audio = document.createElement('audio');
-    var currentSong = null;
-    var songList;
+    playObj.audio = document.createElement('audio');
+    playObj.currentSong = null;
+    var songList = AlbumFactory.currentAlbum.songs;
 
     playObj.toggle = function(song) {
-    	if (song === currentSong && !audio.paused) {
-    		playObj.pause();
-    	} else {
-    		playObj.start(song);
-    	}
+        if (song === this.currentSong)
+            if (!this.audio.paused) {
+                this.pause();
+            } else {
+                this.resume();
+            }
+        else {
+            this.start(song);
+        }
     }
 
     playObj.start = function(song, list) {
-    	currentSong = song;
+        this.currentSong = song;
         this.pause();
-        songList = list;
-        audio.src = song.audioUrl;
-        audio.load();
-        audio.play();
+        this.audio.src = song.audioUrl;
+        this.audio.load();
+        this.audio.play();
     }
 
-	playObj.pause = function() {
-		audio.pause();
-	}
+    playObj.pause = function() {
+        this.audio.pause();
+    }
 
-	playObj.resume = function() {
-		audio.play();
-	}
+    playObj.resume = function() {
+        this.audio.play();
+    }
 
-	playObj.isPlaying = function() {
-		return !audio.paused;
-	}
-	playObj.getCurrentSong = function() {
-		return currentSong;
-	}
+    playObj.isPlaying = function() {
+        return !this.audio.paused;
+    }
+    playObj.getCurrentSong = function() {
+        return this.currentSong;
+    }
 
-	playObj.next = function() {
-		var currentIndex = songList.indexOf(currentSong);
-		playObj.start((songList[currentIndex + 1]) || songList[0], songList);
-	}
+    playObj.next = function() {
+        var currentIndex = songList.indexOf(currentSong);
+        this.start((songList[currentIndex + 1]) || songList[0], songList);
+    }
 
-	playObj.previous = function() {
-		var currentIndex = songList.indexOf(currentSong);
-		playObj.start((songList[currentIndex - 1]) || songList[songList.length - 1], songList);
-	}
-	playObj.getProgress = function() {
-		return audio.currentTime/audio.duration || 0;
+    playObj.previous = function() {
+        var currentIndex = songList.indexOf(this.currentSong);
+        this.start((songList[currentIndex - 1]) || songList[songList.length - 1], songList);
+    }
+    playObj.getProgress = function() {
+        return this.audio.currentTime / this.audio.duration || 0;
 
-	}
+    }
 
-return playObj
+
+    return playObj
 });

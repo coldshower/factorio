@@ -3,24 +3,13 @@
 juke.controller('PlayerCtrl', function ($scope, $rootScope, PlayerFactory) {
 
   // state
-  $scope.currentSong;
-  $scope.playing = false;
+  $scope.getCurrentSong = PlayerFactory.getCurrentSong.bind(PlayerFactory);
+  $scope.toggle = PlayerFactory.toggle.bind(PlayerFactory);
+  $scope.isPlaying = PlayerFactory.isPlaying.bind(PlayerFactory);
 
-  // main toggle
-  // $scope.toggle = function (song) {
-  //   if ($scope.playing) $rootScope.$broadcast('pause');
-  //   else $rootScope.$broadcast('play', song);
-  // };
 
-  // incoming events (from Album or toggle)
-  // $scope.$on('pause', pause);
-  // $scope.$on('play', play);
+  $scope.next =PlayerFactory.next.bind(PlayerFactory)
+  $scope.previous =PlayerFactory.previous.bind(PlayerFactory)
 
- 
- 
-
-  // outgoing events (to Album… or potentially other characters)
-  $scope.next = function () { pause(); $rootScope.$broadcast('next'); };
-  $scope.prev = function () { pause(); $rootScope.$broadcast('prev'); };
 
 });
